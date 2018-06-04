@@ -1,5 +1,8 @@
 package cz.example.foosball.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +23,8 @@ public class Game {
 	@Column(nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "game")
+	@JsonIgnore
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private List<Player> players;
 
 	public int getId() {
@@ -45,5 +49,10 @@ public class Game {
 
 	public void setPlayers(List<Player> players) {
 		this.players = players;
+		for(Player player : players) {
+			if(player.getGame() != this) {
+				player.setGame(this);
+			}
+		}
 	}
 }

@@ -3,8 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+    <script src="/js/app.js"></script>
 </head>
 <body>
-Title
+
+<h1>Foosball</h1>
+
+<div class="login-box unauthenticated">
+    Authenticated with Google: <span id="isAuthenticated"></span><br />
+    Login with Google: <a href="/login">Login</a><br />
+</div>
+
+<div class="login-box authenticated">
+    Logged in as: <span id="user"></span><br />
+    Logout: <a href="#logout" onclick="app.logout();return false;">Logout</a><br />
+</div>
+
+<div>
+    <input id="testRequest" type="button" value="Test Request" />
+    <input id="userRequest" type="button" value="User Request" />
+</div>
+
+<div class="authenticated">
+    <p>authenticated div shown</p>
+
+    <div class="leftColumn">
+        <form id="createPlayerForm">
+            <fieldset>
+                <legend>Create Player</legend>
+                Nick: <input name="nick" /><br />
+                <input id="createPlayer" type="submit" value="Create Player" />
+            </fieldset>
+        </form>
+
+        <fieldset>
+            <legend>Players List</legend>
+            <table id="playersList" class="display">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nick</th>
+                    <th>Wins</th>
+                    <th>Loses</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>John Doe</td>
+                    <td>5</td>
+                    <td>1</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+
+    <div class="rightColumn">
+        <form id="createGameForm">
+            <fieldset>
+                <legend>Create Game</legend>
+                Name: <input name="name" /><br />
+                <input id="createGame" type="submit" value="Create Game" />
+            </fieldset>
+        </form>
+
+        <fieldset>
+            <legend>Games List</legend>
+            <table id="gamesList" class="display">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Game Name</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+
+    <div class="cleaner"></div>
+
+    <div>
+        <form id="joinGameForm">
+            <fieldset>
+                <legend>Join Game</legend>
+                Player 1 Id: <input name="player1Id" />
+                Player 2 Id: <input name="player2Id" />
+                Game Id: <input name="gameId" />
+                <input id="joinGame" type="submit" value="Join Game" />
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="unauthenticated">
+    <p>showing unauthenticated div</p>
+</div>
+
 </body>
 </html>

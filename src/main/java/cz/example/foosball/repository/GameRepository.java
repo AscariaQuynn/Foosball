@@ -1,4 +1,9 @@
 package cz.example.foosball.repository;
 
-public interface GameRepository {
+import cz.example.foosball.model.Game;
+import org.springframework.data.repository.CrudRepository;
+
+public interface GameRepository extends CrudRepository<Game, Integer> {
+
+	Game findByName(String name);
 }

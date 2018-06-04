@@ -1,14 +1,18 @@
 package cz.example.foosball.rest;
 
-import cz.example.foosball.game.Player;
+import cz.example.foosball.model.Player;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestRequestController {
 
-	@RequestMapping("/user")
+	@RequestMapping("/testRequest")
 	public Player getPlayer() {
-		Player player = Player.Bu(.)
+		Player player = new Player();
+		player.setNick("Jarda");
+		player.setWins(1);
+		player.setLoses(2);
+		return player;
 	}
 }

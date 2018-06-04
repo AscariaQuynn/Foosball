@@ -1,4 +1,9 @@
 package cz.example.foosball.repository;
 
-public interface PlayerRepository {
+import cz.example.foosball.model.Player;
+import org.springframework.data.repository.CrudRepository;
+
+public interface PlayerRepository extends CrudRepository<Player, Integer> {
+
+	Player findByNick(String nick);
 }

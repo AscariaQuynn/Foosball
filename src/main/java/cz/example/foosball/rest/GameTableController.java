@@ -1,8 +1,7 @@
 package cz.example.foosball.rest;
 
-import cz.example.foosball.game.JoinGame;
-import cz.example.foosball.model.Game;
-import cz.example.foosball.service.GameService;
+import cz.example.foosball.model.GameTable;
+import cz.example.foosball.service.GameTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,35 +9,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class GameController {
+public class GameTableController {
 
-	public static final String MAPPING_BASE = "/rest/game";
+	public static final String MAPPING_BASE = "/rest/gameTable";
 
 	@Autowired
-	private GameService gameService;
+	private GameTableService gameTableService;
 
 	@RequestMapping(value = MAPPING_BASE, method = RequestMethod.POST)
-	public Game save(Game game) {
-		return gameService.save(game);
+	public GameTable save(GameTable gameTable) {
+		return gameTableService.save(gameTable);
 	}
 
 	@RequestMapping(value = MAPPING_BASE, method = RequestMethod.GET)
-	public Iterable<Game> findAll() {
-		return gameService.findAll();
+	public Iterable<GameTable> findAll() {
+		return gameTableService.findAll();
 	}
 
 	@RequestMapping(value = MAPPING_BASE + "/{id}", method = RequestMethod.GET)
-	public Game findOne(@PathVariable("id") int id) {
-		return gameService.findOne(id);
+	public GameTable findOne(@PathVariable("id") int id) {
+		return gameTableService.findOne(id);
 	}
 
 	@RequestMapping(value = MAPPING_BASE + "/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") int id) {
-		gameService.delete(id);
-	}
-
-	@RequestMapping(value = MAPPING_BASE + "/join", method = RequestMethod.POST)
-	public void join(JoinGame joinGame) {
-		gameService.joinGame(joinGame);
+		gameTableService.delete(id);
 	}
 }

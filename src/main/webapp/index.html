@@ -50,8 +50,6 @@
                 <tr>
                     <th>ID</th>
                     <th>Nick</th>
-                    <th>Wins</th>
-                    <th>Loses</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -59,8 +57,6 @@
                 <tr>
                     <td>1</td>
                     <td>John Doe</td>
-                    <td>5</td>
-                    <td>1</td>
                     <td></td>
                 </tr>
                 </tbody>
@@ -69,17 +65,18 @@
     </div>
 
     <div class="rightColumn">
-        <form id="createGameForm">
+        <form id="createGameTableForm">
             <fieldset>
-                <legend>Create Game</legend>
+                <legend>Create Game Table</legend>
                 Name: <input name="name" /><br />
-                <input id="createGame" type="submit" value="Create Game" />
+                <input id="createGameTable" type="submit" value="Create Game Table" />
+                <p></p>
             </fieldset>
         </form>
 
         <fieldset>
-            <legend>Games List</legend>
-            <table id="gamesList" class="display">
+            <legend>Game Tables List</legend>
+            <table id="gameTablesList" class="display">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -90,7 +87,7 @@
                 <tbody>
                 <tr>
                     <td>1</td>
-                    <td>Game Name</td>
+                    <td>Game Table Name</td>
                     <td></td>
                 </tr>
                 </tbody>
@@ -101,15 +98,53 @@
     <div class="cleaner"></div>
 
     <div>
-        <form id="joinGameForm">
+        <form id="createGameplayForm">
             <fieldset>
-                <legend>Join Game</legend>
-                Player 1 Id: <input name="player1Id" />
-                Player 2 Id: <input name="player2Id" />
-                Game Id: <input name="gameId" />
-                <input id="joinGame" type="submit" value="Join Game" />
+                <legend>Create Gameplay</legend>
+                <table border="1">
+                    <tbody>
+                        <tr>
+                            <td>Game Table Id: <input name="gameTableId" /></td>
+                        </tr>
+                        <tr>
+                            <td>Team 1 = players[0] + [1]<br />
+                                Team 2 = players[2] + [3]<br />
+                                please type as json array<br />
+                                Player 1-4 Ids: <input name="playerIds" value="[]" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-bottom:0px;">
+                    <input id="createGameplay" type="submit" value="Join Gameplay" />
+                </p>
             </fieldset>
         </form>
+
+        <fieldset>
+            <legend>Gameplays List</legend>
+            <table id="gameplaysList" class="display">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Gameplay unique identifier</th>
+                    <th>GameTable</th>
+                    <th>Player</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>uuid</td>
+                    <td>GameTable</td>
+                    <td>Player</td>
+                    <td>Status</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
     </div>
 </div>
 

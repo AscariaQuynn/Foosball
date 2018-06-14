@@ -11,8 +11,6 @@ public class TestRequestController {
 	public Player getPlayer() {
 		Player player = new Player();
 		player.setNick("Jarda");
-		player.setWins(1);
-		player.setLoses(2);
 		return player;
 	}
 }

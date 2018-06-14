@@ -3,6 +3,13 @@ fieldset {
     box-sizing: border-box;
 }
 
+table {
+    border-collapse:collapse;
+}
+td {
+    padding:5px;
+}
+
 .authenticated,
 .unauthenticated {
     display:none;

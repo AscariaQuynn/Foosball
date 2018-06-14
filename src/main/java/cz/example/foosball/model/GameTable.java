@@ -2,30 +2,32 @@ package cz.example.foosball.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "games")
-public class Game {
+@Table(name = "gameTables")
+public class GameTable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "gameTableId")
 	private int id;
 
 	@Column(nullable = false)
 	private String name;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
-	private List<Player> players;
+	@OneToMany(mappedBy = "gameTable", fetch = FetchType.LAZY)
+	private Set<Gameplay> gameplays = new HashSet<>();
 
 	public int getId() {
 		return id;
@@ -43,16 +45,23 @@ public class Game {
 		this.name = name;
 	}
 
-	public List<Player> getPlayers() {
-		return players;
+	public Set<Gameplay> getGameplays() {
+		return gameplays;
 	}
 
-	public void setPlayers(List<Player> players) {
-		this.players = players;
-		for(Player player : players) {
-			if(player.getGame() != this) {
-				player.setGame(this);
+	public void setGameplays(Set<Gameplay> gameplays) {
+		this.gameplays = gameplays;
+		for(Gameplay gameplay : gameplays) {
+			if(gameplay.getGameTable() != this) {
+				gameplay.setGameTable(this);
 			}
+		}
+	}
+
+	public void addGameplay(Gameplay gameplay) {
+		gameplays.add(gameplay);
+		if(gameplay.getGameTable() != this) {
+			gameplay.setGameTable(this);
 		}
 	}
 }

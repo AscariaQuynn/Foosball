@@ -2,7 +2,8 @@
 var app = app || {};
 
 app.playersDataTable = null;
-app.gamesDataTable = null;
+app.gameTablesDataTable = null;
+app.gameplaysDataTable = null;
 
 app.login = function() {
     $.post('/login')
@@ -83,7 +84,7 @@ app.deletePlayer = function(id) {
 
 app.playerDetail = function(id) {
     console.log('player detail ' + id + ' request !');
-    $.get('/rest/player/' + id)
+    $.get('/rest/player/' + id + '/detail')
     .done(function(data) {
         alert(
             'Player Detail:\n\n'
@@ -116,8 +117,6 @@ app.showPlayers = function(data) {
             columns: [
                 { data: 'id' },
                 { data: 'nick' },
-                { data: 'wins' },
-                { data: 'loses' },
                 {
                     data: null,
                     name: 'actions',
@@ -151,57 +150,57 @@ app.refreshPlayers = function() {
     });
 }
 
-app.createGame = function(values) {
-    console.log('create game request !');
-    return $.post('/rest/game', values);
+app.createGameTable = function(values) {
+    console.log('create game table request !');
+    return $.post('/rest/gameTable', values);
 };
 
-app.deleteGame = function(id) {
-    console.log('delete game ' + id + ' request !');
+app.deleteGameTable = function(id) {
+    console.log('delete game table ' + id + ' request !');
     $.ajax({
-        url: '/rest/game/' + id,
+        url: '/rest/gameTable/' + id,
         type: 'DELETE'
     })
     .done(function(data) {
-        app.refreshGames();
+        app.refreshGameTables();
     })
     .fail(function(xhr, status, error) {
-        console.log('deleteGame request failed');
+        console.log('deleteGameTable request failed');
         console.log(xhr);
         console.log(status);
         console.log(error);
     });
 };
 
-app.gameDetail = function(id) {
-    console.log('game detail ' + id + ' request !');
-    $.get('/rest/game/' + id)
+app.gameTableDetail = function(id) {
+    console.log('game table detail ' + id + ' request !');
+    $.get('/rest/gameTable/' + id)
     .done(function(data) {
         alert(
-            'Game Detail:\n\n'
+            'Game Table Detail:\n\n'
             + 'id: ' + data.id + '\n'
             + 'name: ' + data.name + '\n'
         );
     })
     .fail(function(xhr, status, error) {
-        console.log('gameDetail request failed');
+        console.log('gameTableDetail request failed');
         console.log(xhr);
         console.log(status);
         console.log(error);
     });
 }
 
-app.listGames = function() {
-    console.log('list games request !');
-    return $.get('/rest/game');
+app.listGameTables = function() {
+    console.log('list game tables request !');
+    return $.get('/rest/gameTable');
 };
 
-app.showGames = function(data) {
+app.showGameTables = function(data) {
     var data = data || [];
     // Initialize data table
-    if(!app.gamesDataTable) {
+    if(!app.gameTablesDataTable) {
         console.log('creating new data table');
-        app.gamesDataTable = $('#gamesList').DataTable({
+        app.gameTablesDataTable = $('#gameTablesList').DataTable({
             pageLength: 10,
             columns: [
                 { data: 'id' },
@@ -212,8 +211,8 @@ app.showGames = function(data) {
                     orderable: false,
                     searchable: false,
                     render: function(data, type, row, meta) {
-                        return '<a class="button" href="javascript:app.gameDetail(' + row['id'] + ');">' + 'View' + '</a>'
-                        + ' <a class="button" href="javascript:app.deleteGame(' + row['id'] + ');">' + 'Delete' + '</a>';
+                        return '<a class="button" href="javascript:app.gameTableDetail(' + row['id'] + ');">' + 'View' + '</a>'
+                        + ' <a class="button" href="javascript:app.deleteGameTable(' + row['id'] + ');">' + 'Delete' + '</a>';
                     }
                 }
             ],
@@ -221,34 +220,134 @@ app.showGames = function(data) {
         });
     } else {
         console.log('data table already exists');
-        app.gamesDataTable.clear().rows.add(data).draw();
+        app.gameTablesDataTable.clear().rows.add(data).draw();
         console.log('retrieved data');
         console.log(data);
     }
 };
 
-app.refreshGames = function() {
-    app.listGames().done(function(data) {
-        app.showGames(data);
+app.refreshGameTables = function() {
+    app.listGameTables().done(function(data) {
+        app.showGameTables(data);
     })
     .fail(function(xhr, status, error) {
-        console.log('listGames request failed');
+        console.log('listGameTables request failed');
         console.log(xhr);
         console.log(status);
         console.log(error);
     });
+};
+
+app.createGameplay = function(values) {
+    console.log('create gameplay request !');
+    values[1].value = JSON.parse(values[1].value);
+    return $.post('/rest/gameplay/create', values);
+};
+
+app.deleteGameplay = function(id) {
+    console.log('delete gameplay ' + id + ' request !');
+    $.ajax({
+        url: '/rest/gameplay/' + id,
+        type: 'DELETE'
+    })
+    .done(function(data) {
+        app.refreshGameplays();
+    })
+    .fail(function(xhr, status, error) {
+        console.log('deleteGameplay request failed');
+        console.log(xhr);
+        console.log(status);
+        console.log(error);
+    });
+};
+
+app.winGameplay = function(id) {
+    console.log('win gameplay ' + id + ' request !');
+    $.ajax({
+        url: '/rest/gameplay/' + id + '/win',
+        type: 'POST'
+    })
+    .done(function(data) {
+        app.refreshGameplays();
+    })
+    .fail(function(xhr, status, error) {
+        console.log('winGameplay request failed');console.log(xhr);console.log(status);console.log(error);
+    });
+};
+
+app.lossGameplay = function(id) {
+    console.log('loss gameplay ' + id + ' request !');
+    $.ajax({
+        url: '/rest/gameplay/' + id + '/loss',
+        type: 'POST'
+    })
+    .done(function(data) {
+        app.refreshGameplays();
+    })
+    .fail(function(xhr, status, error) {
+        console.log('lossGameplay request failed');console.log(xhr);console.log(status);console.log(error);
+    });
 }
 
-app.joinGame = function(values) {
-    console.log('join game request !');
-    return $.post('/rest/game/join', values);
+app.listGameplays = function() {
+    console.log('list gameplays request !');
+    return $.get('/rest/gameplay');
+};
+
+app.showGameplays = function(data) {
+    var data = data || [];
+    // Initialize data table
+    if(!app.gameplaysDataTable) {
+        console.log('creating new data table');
+        app.gameplaysDataTable = $('#gameplaysList').DataTable({
+            pageLength: 10,
+            columns: [
+                { data: 'id' },
+                { data: 'uuid' },
+                { data: 'gameTable.name' },
+                { data: 'player.nick' },
+                { data: 'status' },
+                {
+                    data: null,
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row, meta) {
+                        return ''
+                            + '<a class="button" href="javascript:app.winGameplay(' + row['id'] + ');">' + 'Win' + '</a>'
+                            + '<a class="button" href="javascript:app.lossGameplay(' + row['id'] + ');">' + 'Loss' + '</a>'
+                            + '<a class="button" href="javascript:app.deleteGameplay(' + row['id'] + ');">' + 'Delete' + '</a>';
+                    }
+                }
+            ],
+            data: data
+        });
+    } else {
+        console.log('data table already exists');
+        app.gameplaysDataTable.clear().rows.add(data).draw();
+        console.log('retrieved data');
+        console.log(data);
+    }
+};
+
+app.refreshGameplays = function() {
+    app.listGameplays().done(function(data) {
+        app.showGameplays(data);
+    })
+    .fail(function(xhr, status, error) {
+        console.log('listGameplays request failed');
+        console.log(xhr);
+        console.log(status);
+        console.log(error);
+    });
 };
 
 $(document).ready(function() {
 
     app.refreshLoggedIn();
     app.refreshPlayers();
-    app.refreshGames();
+    app.refreshGameTables();
+    app.refreshGameplays();
 
     $('#testRequest').on('click', function() {
         app.testRequest().done(function(data) {
@@ -305,7 +404,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#createGame').closest('form').on('submit', function(e) {
+    $('#createGameTable').closest('form').on('submit', function(e) {
         e.preventDefault();
         // Check for empty
         var name = $(this).find('input[name="name"]');
@@ -317,14 +416,14 @@ $(document).ready(function() {
         var values = $(this).serializeArray();
         console.log('Serialized values');
         console.log(values);
-        app.createGame(values).done(function(data) {
-            console.log('game created');
+        app.createGameTable(values).done(function(data) {
+            console.log('game table created');
             console.log(data);
-            $("#createGameForm").trigger("reset");
-            app.refreshGames();
+            $("#createGameTableForm").trigger("reset");
+            app.refreshGameTables();
         })
         .fail(function(xhr, status, error) {
-            console.log('create game request failed');
+            console.log('create game table request failed');
             console.log(xhr);
             console.log(status);
             console.log(error);
@@ -332,40 +431,35 @@ $(document).ready(function() {
         });
     });
 
-    $('#joinGame').closest('form').on('submit', function(e) {
+    $('#createGameplay').closest('form').on('submit', function(e) {
         e.preventDefault();
         // Check for empty
-        var player1Id = $(this).find('input[name="player1Id"]');
-        var player2Id = $(this).find('input[name="player2Id"]');
-        var gameId = $(this).find('input[name="gameId"]');
-        if(!player1Id.val()) {
-            player1Id.focus();
+        var gameTableId = $(this).find('input[name="gameTableId"]');
+        var playerIds = $(this).find('input[name="playerIds"]');
+        if(!gameTableId.val()) {
+            gameTableId.focus();
             return;
         }
-        if(!player2Id.val()) {
-            player2Id.focus();
-            return;
-        }
-        if(!gameId.val()) {
-            gameId.focus();
+        if(playerIds.val().length < 9) { // cause length 9 is [1,2,3,4]
+            playerIds.focus();
             return;
         }
         // Send to server
         var values = $(this).serializeArray();
         console.log('Serialized values');
         console.log(values);
-        app.joinGame(values).done(function(data) {
-            console.log('joined game');
+        app.createGameplay(values).done(function(data) {
+            console.log('created gameplay');
             console.log(data);
-            $("#joinGameForm").trigger("reset");
-            app.refreshGames();
+            $("#createGameplayForm").trigger("reset");
+            app.refreshGameplays();
         })
         .fail(function(xhr, status, error) {
-            console.log('join game request failed');
+            console.log('create gameplay request failed');
             console.log(xhr);
             console.log(status);
             console.log(error);
-            alert('Request failed: ' + status + ' ' + error);
+            alert('Request failed: ' + xhr.responseJSON.error);
         });
     });
 });

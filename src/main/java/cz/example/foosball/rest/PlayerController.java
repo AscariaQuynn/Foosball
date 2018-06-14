@@ -1,6 +1,7 @@
 package cz.example.foosball.rest;
 
 import cz.example.foosball.model.Player;
+import cz.example.foosball.model.PlayerDetail;
 import cz.example.foosball.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +28,9 @@ public class PlayerController {
 		return playerService.findAll();
 	}
 
-	@RequestMapping(value = MAPPING_BASE + "/{id}", method = RequestMethod.GET)
-	public Player findOne(@PathVariable("id") int id) {
-		return playerService.findOne(id);
+	@RequestMapping(value = MAPPING_BASE + "/{id}/detail", method = RequestMethod.GET)
+	public PlayerDetail findOneDetail(@PathVariable("id") int id) {
+		return playerService.findOneDetail(id);
 	}
 
 	@RequestMapping(value = MAPPING_BASE + "/{id}", method = RequestMethod.DELETE)

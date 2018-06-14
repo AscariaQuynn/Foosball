@@ -7,7 +7,7 @@
     - Hit OK
 - Hit Play
 - Open http://localhost:8080, you should see app, try to use it
-- On http://localhost:8080/console is H2 DB console, JDBC URL is jdbc:h2:~/app_db, i dont know why there are no visible app's tables
+- On http://localhost:8080/console is H2 DB console, JDBC URL is jdbc:h2:file:~/h2/app_db
 
 
 #### 14.6.2018
